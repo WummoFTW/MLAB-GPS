@@ -1,0 +1,34 @@
+module costas_top (
+    input  logic clk,   // Clock signal
+    input  logic rst,   // Reset signal
+    input  logic signed [15:0] in_i, // In-phase signal
+    input  logic signed [15:0] in_q, // Quadrature signal
+    output logic signed [31:0] correction // Output correction signal for NCO
+);
+    logic signed [31:0] sum_i, sum_q;
+    logic signed [63:0] phase_error;
+
+    summation_block #(.N(10000)) sum_block_i (
+        .clk(clk),
+        .rst(rst),
+        .in(in_i),
+        .sum(sum_i)
+    );
+
+    summation_block #(.N(10000)) sum_block_q (
+        .clk(clk),
+        .rst(rst),
+        .in(in_q),
+        .sum(sum_q)
+    );
+
+    // Calculate the phase error
+    assign phase_error = sum_i * sum_q;
+
+    costas_filter cost_filt (
+        .clk(clk),
+        .rst(rst),
+        .phase_error(phase_error),
+        .correction(correction)
+    );
+endmodule
