@@ -13,5 +13,7 @@ module costas_filter (
             filtered <= phase_error[31:0];  // Truncate to desired bit width
     end
 
+    //Placeholder need to add filter logic PROBABLY
+
     assign correction = filtered;
 endmodule
