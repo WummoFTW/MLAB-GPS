@@ -1,21 +1,20 @@
 # MLAB-GPS
 
-![Logic Diagram](https://github.com/user-attachments/assets/bc541fcf-d2a8-4e02-89ea-63d1a9f47da1)
+TODO:
 
-![DLL fix example](https://github.com/user-attachments/assets/2aaa760b-f014-4fa4-a20a-25d27227d1e1)
+Filter Fixes
+Fix NCO (nco.sv)
+Fix dll filter (dll_filter.sv)
+Fix costas filter (costas_filter.sv)
 
-## TODO List
+Change PRN to 3x3 bit output
 
-### Filter Fixes
-- [ ] Fix **NCO** (`nco.sv`)
-- [ ] Fix **DLL filter** (`dll_filter.sv`)
-- [ ] Fix **Costas filter** (`costas_filter.sv`)
+Add Sine generation
 
-### Modifications
-- [ ] Change **PRN** to 3x3 bit output
+Testbenching stuff (FUCKING HOPE SOME SHIT SHOWS UP)
 
-### Additions
-- [ ] Add **Sine generation**
 
-### Testbench
-- [ ] Run testbench and verify outputs (NXJ JI)
+![image](https://github.com/user-attachments/assets/bc541fcf-d2a8-4e02-89ea-63d1a9f47da1)
+
+![image](https://github.com/user-attachments/assets/2aaa760b-f014-4fa4-a20a-25d27227d1e1)
+
