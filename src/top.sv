@@ -5,6 +5,8 @@ module top (
     output signed [1:0] data_out
 );
     
+    logic clk_10k;
+
     logic signed [15:0] xor_e_sum , xor_l_sum, xor_e, xor_l;
     logic signed [31:0] suma_e_i,  suma_e_q, suma_l_q, suma_l_i;
     logic signed [31:0] sqr_e_i,  sqr_e_q, sqr_l_q, sqr_l_i;
@@ -120,11 +122,19 @@ costas_top KOSTAS(
 );
 
 NCO_sin #(.PHASE_WIDTH(32)) Sin_NCO (
-        .clk(CLK),
-        .reset_n(RST),
-        .phase_error(sin_corr),
-        .sine(sin),
-        .cosine(cos)
+    .clk(CLK),
+    .reset_n(RST),
+    .phase_error(sin_corr),
+    .sine(sin),
+    .cosine(cos)
     );
+
+// =================== Prescaler ===================
+
+prescaler_10k Prescaler (
+    .clk(CLK),
+    .rst(RST),
+    .clk_out(clk_10k)
+);
 
 endmodule

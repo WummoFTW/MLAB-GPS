@@ -8,12 +8,13 @@
 - [ ] Fix **Costas filter** (`costas_filter.sv`)
 
 ### Modifications
-- [ ] add clocking to sign function (`sign_funtion.sv`)
+- [ ] Add clocking to sign function (`sign_funtion.sv`)
 - [ ] Change **PRN** to 3x3 bit output (`CACODE.sv`)
+- [ ] Add precalers to (`costas_top.sv`) and (`dll_top.sv`)
 
 ### Additions
 - [x] Add **Sine generation** (`NCO_sin.sv`)
-- [ ] Add a clock **Prescaler** (From 10MHz to 1KHz)
+- [x] Add a clock **Prescaler** (From 10MHz to 1KHz)
 
 ### Testbench
 - [ ] Testbench the costas loop

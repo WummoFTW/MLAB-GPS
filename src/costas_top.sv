@@ -1,8 +1,8 @@
 module costas_top (
     input  logic clk,   // Clock signal
     input  logic rst,   // Reset signal
-    input  logic signed [15:0] in_i, // In-phase signal
-    input  logic signed [15:0] in_q, // Quadrature signal
+    input  logic signed [15:0] in_i,    // In-phase signal
+    input  logic signed [15:0] in_q,    // Quadrature signal
     output logic signed [31:0] correction, // Output correction signal for NCO
     output logic signed [1:0] data_output
 );
@@ -25,8 +25,8 @@ module costas_top (
 
     
     sign_function d_out(
-    .clk(clk),   // Clock signal
-    .in(sum_i),  // Input signal
+    .clk(clk),          // Clock signal
+    .in(sum_i),         // Input signal
     .out(data_output)   // Sign output (+1 or -1)
 );
 
