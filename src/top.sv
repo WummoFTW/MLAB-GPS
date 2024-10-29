@@ -10,7 +10,7 @@ module top (
     logic signed [63:0] squared_e_i, squared_e_q, squared_l_i, squared_l_q;
     logic signed [64:0] power_e, power_l;
 
-    logic signed [31:0] corr;
+    logic signed [31:0] corr, CA_corr;
 
     logic signed [15:0] xor_p;
     logic signed [31:0] suma_p_i,  suma_p_q;
@@ -92,7 +92,7 @@ dll_top DLL_to_NCO (
 nco dll_nco(
     .clk(CLK),
     .rst(RST),
-    .correction(corr),  // Control signal from loop filter
+    .correction(CA_corr),  // Control signal from loop filter
     .phase()            // NCO phase output
 );
 
