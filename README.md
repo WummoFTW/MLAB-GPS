@@ -26,3 +26,4 @@
 
 ![image](https://github.com/user-attachments/assets/2aaa760b-f014-4fa4-a20a-25d27227d1e1)
 
+![Turima dalis](https://github.com/user-attachments/assets/29193e39-e2ef-4c08-a20c-f5f95e18afff)
