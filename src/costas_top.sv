@@ -3,7 +3,8 @@ module costas_top (
     input  logic rst,   // Reset signal
     input  logic signed [15:0] in_i, // In-phase signal
     input  logic signed [15:0] in_q, // Quadrature signal
-    output logic signed [31:0] correction // Output correction signal for NCO
+    output logic signed [31:0] correction, // Output correction signal for NCO
+    output logic signed [1:0] data_output
 );
     logic signed [31:0] sum_i, sum_q;
     logic signed [63:0] phase_error;
@@ -21,6 +22,13 @@ module costas_top (
         .in(in_q),
         .sum(sum_q)
     );
+
+    
+    sign_function d_out(
+    .clk(clk),   // Clock signal
+    .in(sum_i),  // Input signal
+    .out(data_output)   // Sign output (+1 or -1)
+);
 
     // Calculate the phase error
     assign phase_error = sum_i * sum_q;

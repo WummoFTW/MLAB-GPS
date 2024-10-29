@@ -1,7 +1,8 @@
 module top (
     input CLK,
     input RST,
-    input data_in
+    input data_in,
+    output signed [1:0] data_out
 );
     
     logic signed [15:0] xor_e_sum , xor_l_sum, xor_e, xor_l;
@@ -93,15 +94,15 @@ dll_top DLL_to_NCO (
 nco dll_nco(
     .clk(CLK),
     .rst(RST),
-    .correction(CA_corr),  // Control signal from loop filter
-    .phase()            // NCO phase output
+    .correction(corr),  // Control signal from loop filter
+    .phase(CA_corr)            // NCO phase output
 );
 
 CACODE PRN_gen(
     .clk(CLK),             // Clock signal
     .rst(RST),             // Reset signal
     .prn_select(5'd1),  // PRN number (1-32)
-    .correction(corr),
+    .correction(CA_corr),
     .ca_code_p(prn_p),  // Output C/A code PUNCTUAL (1 bit)
     .ca_code_e(prn_e),  // Output C/A code EARLY    (1 bit)
     .ca_code_l(prn_l)   // Output C/A code LATE     (1 bit)
@@ -114,7 +115,8 @@ costas_top KOSTAS(
     .rst(RST),          // Reset signal
     .in_i(suma_p_i),    // In-phase signal
     .in_q(suma_p_q),    // Quadrature signal
-    .correction(sin_corr)       // Output correction signal for NCO
+    .correction(sin_corr),       // Output correction signal for NCO
+    .data_output(data_out)
 );
 
 NCO_sin #(.PHASE_WIDTH(32)) Sin_NCO (

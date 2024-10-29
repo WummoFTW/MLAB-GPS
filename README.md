@@ -8,12 +8,15 @@
 - [ ] Fix **Costas filter** (`costas_filter.sv`)
 
 ### Modifications
+- [ ] add clocking to sign function (`sign_funtion.sv`)
 - [ ] Change **PRN** to 3x3 bit output (`CACODE.sv`)
 
 ### Additions
 - [x] Add **Sine generation** (`NCO_sin.sv`)
 
 ### Testbench
+- [ ] Testbench the costas loop
+- [ ] Testbench the Delay-Locked Loop
 - [ ] Run testbench and verify outputs (FUCKING HOPE SOME SHIT SHOWS UP)
 
 ## Visuals
