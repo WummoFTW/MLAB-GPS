@@ -13,5 +13,7 @@ module nco (
             phase_accum <= phase_accum + correction;
     end
 
+    //Missing logic (PROBS, gal veiks)
+
     assign phase = phase_accum;
 endmodule
