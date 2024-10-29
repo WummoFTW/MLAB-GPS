@@ -13,6 +13,7 @@
 
 ### Additions
 - [x] Add **Sine generation** (`NCO_sin.sv`)
+- [ ] Add a clock **Prescaler** (From 10MHz to 1KHz)
 
 ### Testbench
 - [ ] Testbench the costas loop
