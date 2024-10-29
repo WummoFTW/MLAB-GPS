@@ -10,10 +10,11 @@ module top (
     logic signed [63:0] squared_e_i, squared_e_q, squared_l_i, squared_l_q;
     logic signed [64:0] power_e, power_l;
 
-    logic signed [31:0] corr, CA_corr;
+    logic signed [31:0] corr, CA_corr, sin_corr;
 
     logic signed [15:0] xor_p;
     logic signed [31:0] suma_p_i,  suma_p_q;
+    logic signed [31:0] sin, cos;
     logic prn_e, prn_p, prn_l;
 
 // =================== EARLY PART ===================
@@ -26,13 +27,13 @@ xor_block xor_early (
 
 xor_block xor_early_i (
     .a(xor_e),
-    .b(), // SIN sujungimas
+    .b(sin), // SIN sujungimas
     .y(suma_e_i)
 );
 
 xor_block xor_early_q (
     .a(xor_e),
-    .b(), // COS sujungimas
+    .b(cos), // COS sujungimas
     .y(suma_e_q)
 );
 
@@ -47,13 +48,13 @@ xor_block xor_late (
 
 xor_block xor_late_i (
     .a(xor_l),
-    .b(), // SIN sujungimas
+    .b(sin), // SIN sujungimas
     .y(suma_l_i)
 );
 
 xor_block xor_late_q (
     .a(xor_e),
-    .b(), // COS sujungimas
+    .b(cos), // COS sujungimas
     .y(suma_l_q)
 );
 
@@ -67,13 +68,13 @@ xor_block xor_punctual (
 
 xor_block xor_punctual_i (
     .a(xor_p),
-    .b(), // SIN sujungimas
+    .b(sin), // SIN sujungimas
     .y(suma_p_i)
 );
 
 xor_block xor_punctual_q (
     .a(xor_p),
-    .b(), // COS sujungimas
+    .b(cos), // COS sujungimas
     .y(suma_p_q)
 );
 
@@ -113,7 +114,15 @@ costas_top KOSTAS(
     .rst(RST),          // Reset signal
     .in_i(suma_p_i),    // In-phase signal
     .in_q(suma_p_q),    // Quadrature signal
-    .correction()       // Output correction signal for NCO
+    .correction(sin_corr)       // Output correction signal for NCO
 );
+
+NCO_sin #(.PHASE_WIDTH(32)) Sin_NCO (
+        .clk(CLK),
+        .reset_n(RST),
+        .phase_error(sin_corr),
+        .sine(sin),
+        .cosine(cos)
+    );
 
 endmodule

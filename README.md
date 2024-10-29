@@ -11,7 +11,7 @@
 - [ ] Change **PRN** to 3x3 bit output (`CACODE.sv`)
 
 ### Additions
-- [ ] Add **Sine generation** (`NCO_sin.sv`)
+- [V] Add **Sine generation** (`NCO_sin.sv`)
 
 ### Testbench
 - [ ] Run testbench and verify outputs (FUCKING HOPE SOME SHIT SHOWS UP)
