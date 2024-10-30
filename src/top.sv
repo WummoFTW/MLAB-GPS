@@ -1,11 +1,11 @@
 module top (
-    input CLK,
-    input RST,
-    input data_in,
+    input               CLK,
+    input               RST,
+    input         [2:0] data_in,
     output signed [1:0] data_out
 );
     
-    logic clk_10k;
+    logic               CLK_10k;
 
     logic signed [15:0] xor_e_sum , xor_l_sum, xor_e, xor_l;
     logic signed [31:0] suma_e_i,  suma_e_q, suma_l_q, suma_l_i;
@@ -18,25 +18,25 @@ module top (
     logic signed [15:0] xor_p;
     logic signed [31:0] suma_p_i,  suma_p_q;
     logic signed [31:0] sin, cos;
-    logic prn_e, prn_p, prn_l;
+    logic               prn_e, prn_p, prn_l;
 
 // =================== EARLY PART ===================
 
 xor_block xor_early (
     .a(data_in),
-    .b(prn_e), // PRN sujungimas
+    .b(prn_e),  // PRN sujungimas
     .y(xor_e)
 );
 
 xor_block xor_early_i (
     .a(xor_e),
-    .b(sin), // SIN sujungimas
+    .b(sin),    // SIN sujungimas
     .y(suma_e_i)
 );
 
 xor_block xor_early_q (
     .a(xor_e),
-    .b(cos), // COS sujungimas
+    .b(cos),    // COS sujungimas
     .y(suma_e_q)
 );
 
@@ -45,19 +45,19 @@ xor_block xor_early_q (
 
 xor_block xor_late (
     .a(data_in),
-    .b(prn_l), // PRN sujungimas
+    .b(prn_l),  // PRN sujungimas
     .y(xor_l)
 );
 
 xor_block xor_late_i (
     .a(xor_l),
-    .b(sin), // SIN sujungimas
+    .b(sin),    // SIN sujungimas
     .y(suma_l_i)
 );
 
 xor_block xor_late_q (
     .a(xor_e),
-    .b(cos), // COS sujungimas
+    .b(cos),    // COS sujungimas
     .y(suma_l_q)
 );
 
@@ -85,6 +85,7 @@ xor_block xor_punctual_q (
 
 dll_top DLL_to_NCO (
     .clk(CLK),          // Clock signal
+    .clk_10(CLK_10k),
     .rst(RST),          // Reset signal
     .in_e_i(suma_e_i),  // Early signal
     .in_e_q(suma_e_q),
@@ -114,6 +115,7 @@ CACODE PRN_gen(
 
 costas_top KOSTAS(
     .clk(CLK),          // Clock signal
+    .clk_10(CLK_10k),
     .rst(RST),          // Reset signal
     .in_i(suma_p_i),    // In-phase signal
     .in_q(suma_p_q),    // Quadrature signal
@@ -134,7 +136,7 @@ NCO_sin #(.PHASE_WIDTH(32)) Sin_NCO (
 prescaler_10k Prescaler (
     .clk(CLK),
     .rst(RST),
-    .clk_out(clk_10k)
+    .clk_out(CLK_10k)
 );
 
 endmodule

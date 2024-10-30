@@ -1,5 +1,6 @@
 module dll_top (
     input  logic clk,   // Clock signal
+    input  logic clk_10, 
     input  logic rst,   // Reset signal
     input  logic signed [15:0] in_e_i, // Early signal
     input  logic signed [15:0] in_e_q,
@@ -64,7 +65,7 @@ module dll_top (
     assign summed_pl = squared_l_i + squared_l_q;
 
     dll_filter dll_filt (
-        .clk(clk),
+        .clk(clk_10),
         .rst(rst),
         .pe(summed_pe),
         .pl(summed_pl),

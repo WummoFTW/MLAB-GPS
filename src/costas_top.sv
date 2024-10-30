@@ -1,6 +1,7 @@
 module costas_top (
-    input  logic clk,   // Clock signal
-    input  logic rst,   // Reset signal
+    input  logic clk,       // Clock signal
+    input  logic clk_10,    // Prescaled Clock signal
+    input  logic rst,       // Reset signal
     input  logic signed [15:0] in_i,    // In-phase signal
     input  logic signed [15:0] in_q,    // Quadrature signal
     output logic signed [31:0] correction, // Output correction signal for NCO
@@ -34,7 +35,7 @@ module costas_top (
     assign phase_error = sum_i * sum_q;
 
     costas_filter cost_filt (
-        .clk(clk),
+        .clk(clk_10),
         .rst(rst),
         .phase_error(phase_error),
         .correction(correction)
