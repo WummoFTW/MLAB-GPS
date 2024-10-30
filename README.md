@@ -10,7 +10,7 @@
 ### Modifications
 - [ ] Add clocking to sign function (`sign_funtion.sv`)
 - [ ] Change **PRN** to 3x3 bit output (`CACODE.sv`)
-- [ ] Add precalers to (`costas_top.sv`) and (`dll_top.sv`)
+- [x] Add precalers to (`costas_top.sv`) and (`dll_top.sv`)
 
 ### Additions
 - [x] Add **Sine generation** (`NCO_sin.sv`)
