@@ -1,8 +1,11 @@
 module top (
     input               CLK,
     input               RST,
-    input         [2:0] data_in,
-    output signed [1:0] data_out
+    input               uart_data_in,
+    output signed [1:0] data_out,
+    output              data_valorant
+
+
 );
     
     logic               CLK_10k;
@@ -19,6 +22,19 @@ module top (
     logic signed [31:0] suma_p_i,  suma_p_q;
     logic signed [31:0] sin, cos;
     logic               prn_e, prn_p, prn_l;
+
+    logic        [2:0]  data_in;
+
+
+// =================== UART ===================
+
+uart_receiver UART_boi (
+    .clk(CLK),                  // System clock
+    .reset(RST),                // Reset signal
+    .rx(uart_data_in),          // UART receive input
+    .data_out(data_in),         // 3-bit output data
+    .data_valid(data_valorant)  // Data valid signal
+);
 
 // =================== EARLY PART ===================
 
