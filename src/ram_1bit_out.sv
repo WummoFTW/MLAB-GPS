@@ -15,6 +15,6 @@ module ram_1bit_out (
             ram <= 80'd0;
         else
             ram <= ram << 1;
-            ram[1] <= data_in;
+            ram[0] <= data_in;
     end
 endmodule

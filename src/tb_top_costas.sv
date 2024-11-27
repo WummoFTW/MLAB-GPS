@@ -85,7 +85,7 @@ module tb_top_costas;
         if (RST) begin
             i <= 22'd0;
             ram_address <= 0;
-        end else if(ram_address == 22'd810000)begin
+        end else if(ram_address == 22'd820000)begin
                 $stop;
         end else begin
             
