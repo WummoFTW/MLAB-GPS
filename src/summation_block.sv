@@ -1,20 +1,22 @@
-module summation_block #(
-    parameter int N = 10000  // Number of samples to sum
-)(
-    input  logic        clk,   // Clock signal
-    input  logic        rst,   // Reset signal
-    input  logic signed [15:0] in, // Input value (I/Q component)
-    output logic signed [31:0] sum  // Output summed value
+module summation_block (
+    input  logic            clk,      // Main clock signal
+    input  logic            clk_10,   // Flag signal (indicates end of accumulation period)
+    input  logic            rst,      // Reset signal
+    input  logic            in, // Input value (I/Q component)
+    output logic    [13:0]  sum  // Output summed value
 );
-    logic signed [31:0] accum;  // Accumulator
+    logic  [31:0]   accum;  // Accumulator
 
     always_ff @(posedge clk or posedge rst) begin
-        if (rst)
-            accum <= 0;
-        // else if (/*sample period*/)
-        else
-            accum <= accum + in;
+        if (rst) begin
+            accum <= 32'd0;
+            sum <= 32'd0;
+        end else if (clk_10) begin
+            sum <= accum;      // Update sum with accumulated value
+            accum <= 32'd0;    // Reset accumulator for the next cycle
+        end else begin
+            accum <= accum + in; // Accumulate input values
+        end
     end
 
-    assign sum = accum;
 endmodule

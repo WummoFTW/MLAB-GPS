@@ -14,7 +14,7 @@ module tb_top_costas;
     wire out_clk, out_clk_10k;
 
     // Instantiate the top_module
-    top_costas uut (
+    top_costas costas_loop (
         .CLK(CLK),
         .RST(RST),
         .data_in(data_in),
