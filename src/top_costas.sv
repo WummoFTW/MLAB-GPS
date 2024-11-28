@@ -16,6 +16,8 @@ module top_costas (
 
     logic               sin, cos;
 
+    logic               polarity;
+
 // =================== Punctual PART ===================
 
     xor_block xor_punctual_prn (
@@ -25,8 +27,8 @@ module top_costas (
     );
     
     xor_block xor_punctual_i (
-        .a(prn_p),    //Data_in pakeist reikes
-        .b(sin), // SIN sujungimas
+        .a(prn_p),  //Data_in pakeist reikes
+        .b(sin),    // SIN sujungimas
         .y(xor_p_i)
     );
 
@@ -58,6 +60,7 @@ module top_costas (
     sign_function d_out(
         .clk(CLK),          // Clock signal
         .in(suma_p_i),      // Input signal
+        .sign(polarity),
         .out(data_out)   // Sign output (+1 or -1)
     );
 
@@ -65,7 +68,8 @@ module top_costas (
         .clk(CLK_10k),
         .rst(RST),
         .phase_error(phase_error),
-        .correction(correction)
+        .correction(correction),
+        .sign(polarity)
     );
 
     NCO_sin Sin_NCO (
@@ -75,9 +79,5 @@ module top_costas (
         .sine(sin),
         .cosine(cos)
     );
-
-
-
-
 
 endmodule

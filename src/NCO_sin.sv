@@ -4,6 +4,7 @@ module NCO_sin(
     input  logic        [1:0] phase_error,
     output logic             sine,   // 1-bit output
     output logic             cosine  // 1-bit output
+    
 );
 
 

@@ -2,14 +2,14 @@ module ram_1bit (
     input wire clk,
     input wire rst,
     input wire [21:0] address,   // Address input for selecting data
-    output reg        data_out   // 3-bit data output
+    output reg        data_out   // data output
 );
     // Define RAM with 128 locations (3-bit each)
     reg ram [3999999:0];
 
     // Initialize RAM values (can be modified for different patterns)
     initial begin
-         $readmemb("c:\\Users\\newadmin\\Desktop\\GPS\\1bit\\MLAB-GPS\\sim_data\\Data1124.hex", ram);
+         $readmemb("c:\\Users\\newadmin\\Desktop\\GPS\\1bit\\MLAB-GPS\\sim_data\\Data_Phase3.hex", ram);
          
     end
 
