@@ -1,25 +1,24 @@
-module dll_filter (
-    input  logic clk,   // Clock signal
-    input  logic rst,   // Reset signal
-    input  logic signed [63:0] pe, // Early energy
-    input  logic signed [63:0] pl, // Late energy
-    output logic signed [31:0] correction // Correction signal for NCO
+module costas_filter (
+    input  logic        clk,     // Clock signal
+    input  logic        rst,     // Reset signal
+    input  logic        [27:0] phase_error, // Phase error
+    output logic        [1:0] correction,   // Correction signal for carrier NCO
+    output logic        sign
 );
-    logic signed [63:0] error;
     logic signed [31:0] filtered;
 
-    // Calculate the error between Early and Late energies
-    assign error = pe - pl;
-
-    // Simple proportional loop filter (P-controller)
     always_ff @(posedge clk or posedge rst) begin
-        if (rst)
+        if (rst) begin
             filtered <= 0;
-        else
-            filtered <= error[31:0]; // Truncate to desired bit width
+            sign <= 0;
+        end else begin
+            filtered <= phase_error[27:26];  // Truncate to desired bit width
+            sign <= phase_error[1];
+        end
     end
 
-    //Placeholder need to add filter logic PROBABLY
+    // HOW IS THIS WORKING WTF 
+    // PLS HELP
 
     assign correction = filtered;
 endmodule
