@@ -3,13 +3,12 @@
 ## TODO List
 
 ### Filter Fixes
-- [ ] Fix **NCO** (`nco.sv`)
+- [ ] Fix **NCO** (`NCO_PRN.sv`)
 - [ ] Fix **DLL filter** (`dll_filter.sv`)
-- [ ] Fix **Costas filter** (`costas_filter.sv`)
+- [x] Fix **Costas filter** (`costas_filter.sv`)
 
 ### Modifications
 - [ ] Add clocking to sign function (`sign_funtion.sv`)
-- [ ] Change **PRN** to 3x3 bit output (`CACODE.sv`)
 - [x] Add precalers to (`costas_top.sv`) and (`dll_top.sv`)
 
 ### Additions
@@ -17,9 +16,9 @@
 - [x] Add a clock **Prescaler** (From 10MHz to 1KHz)
 
 ### Testbench
-- [ ] Testbench the costas loop
+- [x] Testbench the costas loop
 - [ ] Testbench the Delay-Locked Loop
-- [ ] Run testbench and verify outputs (FUCKING HOPE SOME SHIT SHOWS UP)
+- [ ] Run testbench and verify outputs 
 
 ## Visuals
 ### Logic diagram
