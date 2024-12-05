@@ -28,3 +28,5 @@
 ### Elaborated design (Prototype V1)
 ![image](https://github.com/user-attachments/assets/1ceb7407-5271-480c-b277-bd86cc517eee)
 
+### Elaborated design (Prototype V2)
+![image](https://github.com/user-attachments/assets/70300729-fb2e-4a72-9668-e7f5feea8c3f)
