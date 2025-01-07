@@ -4,6 +4,7 @@ module ram_1bit_out (
     input wire      data_in
 );
     reg [80:0]  ram ;
+    reg [80:0]  ram_inv ;
     reg [6:0]   address  = 7'b0;
 
     
@@ -16,5 +17,7 @@ module ram_1bit_out (
         else
             ram <= ram << 1;
             ram[0] <= data_in;
+            ram_inv <= ram_inv << 1;
+            ram_inv[0] <= ~data_in;
     end
 endmodule

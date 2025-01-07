@@ -5,6 +5,8 @@ module top_costas (
     input               prn_in,
     input               CLK_10k,
 
+    output              sin_out,
+    output              cos_out,
     output              data_out
 );
     logic        [27:0] phase_error;
@@ -79,5 +81,8 @@ module top_costas (
         .sine(sin),
         .cosine(cos)
     );
+
+    assign sin_out = sin;
+    assign cos_out = cos;
 
 endmodule

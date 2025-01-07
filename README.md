@@ -3,12 +3,12 @@
 ## TODO List
 
 ### Filter Fixes
-- [ ] Fix **NCO** (`NCO_PRN.sv`)
-- [ ] Fix **DLL filter** (`dll_filter.sv`)
+- [x] Fix **NCO** (`NCO_PRN.sv`)
+- [x] Fix **DLL filter** (`dll_filter.sv`)
 - [x] Fix **Costas filter** (`costas_filter.sv`)
 
 ### Modifications
-- [ ] Add clocking to sign function (`sign_funtion.sv`)
+- [x] Add clocking to sign function (`sign_funtion.sv`)
 - [x] Add precalers to (`costas_top.sv`) and (`dll_top.sv`)
 
 ### Additions
@@ -17,7 +17,7 @@
 
 ### Testbench
 - [x] Testbench the costas loop
-- [ ] Testbench the Delay-Locked Loop
+- [x] Testbench the Delay-Locked Loop
 - [ ] Run testbench and verify outputs 
 
 ## Visuals
@@ -28,5 +28,3 @@
 ### Elaborated design (Prototype V1)
 ![image](https://github.com/user-attachments/assets/1ceb7407-5271-480c-b277-bd86cc517eee)
 
-### Elaborated design (Prototype V2)
-![image](https://github.com/user-attachments/assets/70300729-fb2e-4a72-9668-e7f5feea8c3f)

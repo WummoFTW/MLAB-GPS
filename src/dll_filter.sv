@@ -1,24 +1,20 @@
-module costas_filter (
-    input  logic        clk,     // Clock signal
-    input  logic        rst,     // Reset signal
-    input  logic        [27:0] phase_error, // Phase error
-    output logic        [1:0] correction,   // Correction signal for carrier NCO
-    output logic        sign
+module dll_filter (
+    input  logic               clk,         // Clock signal
+    input  logic               rst,         // Reset signal
+    input  logic        [28:0] p_e,         // Power early
+    input  logic        [28:0] p_l,         // Power late
+    output logic signed [28:0] correction   // Correction signal for carrier NCO
 );
-    logic signed [31:0] filtered;
+    logic signed [28:0] filtered;
 
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
-            filtered <= 0;
-            sign <= 0;
+            filtered <= 28'd0;
+            
         end else begin
-            filtered <= phase_error[27:26];  // Truncate to desired bit width
-            sign <= phase_error[1];
+            filtered <= p_e - p_l; 
         end
     end
-
-    // HOW IS THIS WORKING WTF 
-    // PLS HELP
 
     assign correction = filtered;
 endmodule
