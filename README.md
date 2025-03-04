@@ -1,30 +1,45 @@
 # MLAB-GPS
 
-## TODO List
+MLAB-GPS is a real-time GPS L1 band RTL model based on the research published by Andrew Holmes. This project provides an implementation of GPS signal processing techniques for real-time tracking and navigation.
 
-### Filter Fixes
-- [x] Fix **NCO** (`NCO_PRN.sv`)
-- [x] Fix **DLL filter** (`dll_filter.sv`)
-- [x] Fix **Costas filter** (`costas_filter.sv`)
-
-### Modifications
-- [x] Add clocking to sign function (`sign_funtion.sv`)
-- [x] Add precalers to (`costas_top.sv`) and (`dll_top.sv`)
-
-### Additions
-- [x] Add **Sine generation** (`NCO_sin.sv`)
-- [x] Add a clock **Prescaler** (From 10MHz to 1KHz)
-
-### Testbench
-- [x] Testbench the costas loop
-- [x] Testbench the Delay-Locked Loop
-- [ ] Run testbench and verify outputs 
-
-## Visuals
 ### Logic diagram
 ![image](https://github.com/user-attachments/assets/bc541fcf-d2a8-4e02-89ea-63d1a9f47da1)
-### Fix example
-![image](https://github.com/user-attachments/assets/2aaa760b-f014-4fa4-a20a-25d27227d1e1)
-### Elaborated design (Prototype V1)
-![image](https://github.com/user-attachments/assets/1ceb7407-5271-480c-b277-bd86cc517eee)
 
+**Note:** This circuit is intended only for learning purposes.
+
+## Features
+
+- Real-time GPS L1 band signal processing
+- Based on research from Andrew Holmes
+- Uses RTL-based implementation for enhanced efficiency
+- Open-source under GNU General Public License
+
+## Installation
+
+### Prerequisites
+
+Ensure you have the following dependencies installed before running the project:
+
+- **Matlab R2024b**
+- **Python 3.x**
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0**. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Research by **Andrew Holmes**
+
+## Contributions
+
+Contributions are welcome! Please follow the standard GitHub workflow:
+
+1. Fork the repository
+2. Create a new branch (`feature-xyz`)
+3. Commit your changes
+4. Submit a pull request
+
+## Contact
+
+For questions or suggestions, please open an issue on GitHub.
