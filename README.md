@@ -29,7 +29,7 @@ This project is licensed under the **GNU General Public License v3.0**. See the 
 
 ## Acknowledgments
 
-- Research by **Andrew Holmes**
+- Research by [**Andrew Holmes**](http://www.aholme.co.uk/)
 
 ## Contributions
 
