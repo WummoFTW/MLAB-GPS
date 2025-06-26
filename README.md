@@ -10,13 +10,12 @@ Real-Time FPGA GPS L1 C/A Receiver Core
 1. [Key Features](#key-features)  
 2. [Hardware & Toolchain](#hardware--toolchain)  
 3. [Repo Layout](#repo-layout)  
-4. [Quick Start](#quick-start)  
-5. [Build From Source](#build-from-source)  
-6. [Simulation & Testing](#simulation--testing)  
-7. [Performance](#performance)  
-8. [Roadmap](#roadmap)  
-9. [Contributing](#contributing)  
-10. [License](#license)  
+4. [Quick Start ❌](#quick-start)  
+5. [Build From Source ❌](#build-from-source)  
+6. [Simulation & Testing ❌](#simulation--testing)  
+7. [Performance ❌](#performance)  
+8. [Roadmap ❌](#roadmap)  
+9. [Contributing ❌](#contributing)
 
 ---
 
@@ -41,7 +40,7 @@ Real-Time FPGA GPS L1 C/A Receiver Core
 | **FPGA board**      | AMD Kintex UltraScale **KCU105** starter kit (XCKU040-2)                              |
 | **RF front-end**    | Any L1 down-converter delivering signed/unsigned **1-bit IF** at ≥ 16.368 MSps        |
 | **Vivado**          | **2024.2** (project & IP versions are locked)                                         |
-| **Python 3.10 + NumPy** | Generates `ca_codes.txt` and post-processes log files                            |
+| **Python 3.10 + NumPy** | Generates `ca_codes.txt`                                                          |
 
 ---
 
