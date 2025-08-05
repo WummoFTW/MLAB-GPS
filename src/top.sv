@@ -12,8 +12,7 @@ module top (
     output reg [31:0] accum_0,
     output reg [31:0] accum_max
 );
-//NIGERIUKAI
-//NIGERIUKAI
+
 wire            CLK_10k;
 wire [3:0]      CLK_1023_Phased;
 wire [1022:0]   CA_table;
@@ -32,6 +31,19 @@ cycle_delay delay_2 (
     .data_out(input_data),
     .data_out_code(input_data_decode)
 );
+
+design_1_wrapper vio_1
+   (.clk_0(CLK_16M),
+    .probe_in0_0(RST),
+    .probe_in1(D_in),
+    .probe_in2(PRN),
+    .probe_in3(phase),
+    .probe_in4(doppler_tw),
+    .probe_out0_0(rst),
+    .probe_out1(D_in_doppler_i),
+    .probe_out2(prn_select),
+    .probe_out3(Phase),
+    .probe_out4(phase_step));
 
 
 CA_master CA_data (
