@@ -17,7 +17,7 @@ assign abs_diff = correlator_diff[31] == 0 ? correlator_diff : ~correlator_diff+
             lock_lost <= 0;
         end
         else begin
-            if(abs_diff > 32'd400) begin
+            if(abs_diff > 32'd250) begin
                 phase <= correlator_diff[31] == 0 ? phase - 1 : phase + 1;
             end
             lock_lost <= 0; //earlyC+promptC+lateC < 1600 ? 1 : 0;

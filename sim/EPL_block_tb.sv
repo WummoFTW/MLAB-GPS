@@ -2,8 +2,8 @@
 
 module EPL_tb;
     reg reset, clock_16M, signal;
-    reg [9:0] simulated_error;
-    wire clock_sample, clock_1_023M, CA_signal;
+    reg [32:0] simulated_error;
+    wire clock_sample, clock_1_023M, CA_signal, clock_signal;
     reg [15:0] counter;
     wire [1022:0] CA_table;
 
@@ -12,11 +12,17 @@ module EPL_tb;
         .rst(reset),
         .clk_out(clock_sample)
     );
-
     prescaler_1_023M helper_clk_1_023M(
         .clk_in(clock_16M),
         .rst(reset),
         .clk_0(clock_1_023M)
+    );
+
+    DLL_control_clock helper_clk_signal(
+        .clk_in(clock_16M),
+        .rst(reset),
+        .fcw_correction(simulated_error),
+        .clk_out(clock_signal)
     );
 
     CA_master helper_CA_data(
@@ -28,8 +34,8 @@ module EPL_tb;
         .offset(1)
     ) helper_CA_code_gen(
         .rst(reset),
-        .clk(clock_1_023M),
-        .phase(simulated_error),
+        .clk(clock_signal),
+        .phase(10'd0),
         .CA_code(CA_table),
         .tap(CA_signal)
     );
@@ -50,7 +56,7 @@ module EPL_tb;
     initial begin
         reset = 0;
         clock_16M = 0;
-        simulated_error = 10'd0;
+        simulated_error = 32'd0;
         counter = 0;
         #100 reset = 1;
         #100 reset = 0;
@@ -61,19 +67,20 @@ module EPL_tb;
     end
 
     always @(posedge clock_16M) begin
+        /*Simuliuojamas daznio pokytis. Daznis nuo bazinio 
+        keliamas iki apie 1.034 MHz. Jei Modulis veikia tai
+        jis gali kompensuoti apie 10 kHz daznio pokyti bei
+        staigius 1 kHz daznio pokycius*/
         if(counter < 10000 && counter % 1000 == 0) begin
-            simulated_error <= simulated_error + 1;
+            simulated_error <= simulated_error + 300000;
         end
         else if(counter < 20000 && counter % 1000 == 0) begin
-            simulated_error <= simulated_error - 1;
+            simulated_error <= simulated_error - 300000;
         end
         else if(counter < 30000 && counter % 1000 == 0) begin
             simulated_error <= 0;
         end
-        else if(counter < 50000 && counter % 1000 == 0) begin
-            simulated_error <= $urandom % 2;
-        end
-        else if(counter > 50000) begin
+        else if(counter > 30000) begin
             $finish;
         end
         counter++;
