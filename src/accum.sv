@@ -79,35 +79,29 @@ endmodule
     input  logic        rst,        // Synchronous reset
     input  logic        in,         // Input signal to accumulate
     input  logic        clk_10,     // Flag to output the result
-    input  logic        add_ena,    // do plus or minus ================== 0 = + data | 1 = - data 
+    input  logic        add_ena,    // C/A Code { do plus or minus 0 = + data | 1 = - data }
     output logic [31:0] sum         // Output sum every 10 inputs
 );
 
     logic [31:0]  accum;            // Internal accumulator
-    logic [10:0]  count;            // Counter to track up to 1023
 
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             accum <= 32'd0;
-            count <= 4'd0;
             sum   <= 32'd0;
         end else if(add_ena == 1'b0) begin
             accum <= accum + in;
-            count <= count + 1;
 
             if (clk_10 == 1'b1) begin
                 sum   <= accum + in; 
                 accum <= 32'd0;
-                count <= 10'd0;
             end
         end else if(add_ena == 1'b1) begin
             accum <= accum - in;
-            count <= count + 1;
 
             if (clk_10 == 1'b1) begin
                 sum   <= accum - in; 
                 accum <= 32'd0;
-                count <= 10'd0;
             end
         end
     end

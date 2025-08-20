@@ -14,13 +14,13 @@ module Tester (
 
 
     always_ff @( posedge clk_50 ) begin
-        addr = addr +1;
+        addr = addr + 1;
     end
 
     doppler_gen Doppler (
         .clk(CLK_16M),
         .rst(rst),
-        .doppler(12'd4000),   // Hz
+        .doppler(13'd4000),   // Hz
         .sin(doppler_shift)        // 1-bit output
     );
 
@@ -34,6 +34,6 @@ module Tester (
         .tap(ca_code)
     );
 
-    assign tap = data[addr] ^ ca_code ^ doppler_shift;
+    assign tap = data[addr] ^ ca_code; //^ doppler_shift; //temp
 
 endmodule

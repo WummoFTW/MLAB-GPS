@@ -15,8 +15,8 @@ def find_dds_tuning_word(f_out, f_ref, n_bits):
     return tuning_word_float, tuning_word, actual_f_out
 
 if __name__ == "__main__":
-    F_out = 22579000     # Desired output frequency (Hz)
-    F_ref = 100_000_000    # Reference clock (Hz)
+    F_out = 1_023_000     # Desired output frequency (Hz)
+    F_ref = 16_000_000    # Reference clock (Hz)
     N = 64                # Accumulator bits
 
     tuning_word_float, tuning_word, actual_f_out = find_dds_tuning_word(F_out, F_ref, N)

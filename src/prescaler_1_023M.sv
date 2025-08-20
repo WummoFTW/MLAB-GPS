@@ -101,9 +101,9 @@ module prescaler_1_023M (
     output logic clk_2,    // 180 pulse
     output logic clk_3     // 270 pulse
 );
-
-    localparam logic [63:0] DDS_INC = 64'd1179459451799887360;
-
+    
+    localparam logic [63:0] DDS_INC = 64'd1179438699212804352; //64'd1179459451799887360;
+    
     logic [63:0] phase_accumulator;
     logic [1:0]  previous_phase;
     logic [3:0]  phase_pulse;
