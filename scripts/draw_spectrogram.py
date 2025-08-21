@@ -23,4 +23,3 @@ plt.ylabel('Time Step')
 plt.title('Waterfall Spectrogram (128 Correlators, accumulator of 1000, Fs = 16MHz, simulated 1.023MHz clock, Doppler compensated)')
 plt.tight_layout()
 plt.show()
-

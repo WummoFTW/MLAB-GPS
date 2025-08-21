@@ -81,5 +81,3 @@ module controller (
         end
     end
 endmodule
-
-*/

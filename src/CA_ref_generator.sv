@@ -1,4 +1,3 @@
-
 module CA_ref_generator#( //was CA_shifter
     parameter int offset = 0
 ) (
@@ -15,7 +14,12 @@ module CA_ref_generator#( //was CA_shifter
         if (rst) begin
             bit_address <= 10'd0;
         end else begin
-            bit_address <= bit_address + 1;
+            if(bit_address == 10'd1022) begin
+                bit_address <= 10'd0;
+            end
+            else begin
+                bit_address <= bit_address + 1;
+            end
         end
     end
 
@@ -62,6 +66,4 @@ module CA_ref_generator#(
     end
 
 endmodule
-
-
 */
