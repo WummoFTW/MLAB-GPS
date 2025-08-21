@@ -1,4 +1,4 @@
-module Tester (
+module stimulus_main (
     input               rst,
     input               CLK_16M,
     input               clk_50,
@@ -7,6 +7,7 @@ module Tester (
     input         [9:0] phase,
     output logic        tap
 );
+
     wire ca_code, doppler_shift;
     reg [6:0] addr = 0;
 
@@ -17,11 +18,11 @@ module Tester (
         addr = addr +1;
     end
 
-    doppler_gen Doppler (
+    doppler_stim Doppler (
         .clk(CLK_16M),
         .rst(rst),
         .doppler(12'd4000),   // Hz
-        .sin(doppler_shift)        // 1-bit output
+        .sin(doppler_shift)   // 1-bit output
     );
 
     CA_ref_generator #(
@@ -37,3 +38,5 @@ module Tester (
     assign tap = data[addr] ^ ca_code ^ doppler_shift;
 
 endmodule
+
+//Testbench copy paste test for synthesis

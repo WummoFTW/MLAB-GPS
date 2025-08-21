@@ -7,20 +7,13 @@ module system_top(
     output reg [31:0] ACCUMAX
 );
 
-wire RESET, CLOCK_16, PRN_SYS, DOPPLER_TW, PHASE_SYS;
-
-top top_wrapper (
-    .RST(RESET),
-    .CLK_16M(CLOCK_16),
-    .D_in(DATA_IN),
-    .PRN(PRN_SYS),
-    .doppler_tw(DOPPLER_TW),
-    .phase(PHASE_SYS),
-    .CA_out(CA_OUTPUT),
-    .max_ID(MAX_ID),
-    .accum_0(ACCUM0),
-    .accum_max(ACCUMAX)
-);
+wire RESET, CLOCK_16, CLOCK_SAMPLE, SIGNAL;
+wire [4:0] PRN_SYS;
+wire [31:0] DOPPLER_TW;
+wire [9:0] PHASE_SYS;
+wire RST_st, PRN_st, phase_st, doppler_tw_st, tap_connect;
+wire CLOCK_1023M [3:0];
+wire [1022:0] CA_TABLE;
 
 design_1 vio_0 (
     .clk(CLOCK_16),
@@ -35,6 +28,44 @@ design_1 vio_0 (
     .probe_out4(DOPPLER_TW)
     );
 
+top top_search (
+    .RST(RESET),
+    .CLK_16M(CLOCK_16),
+    .CA_table(CA_TABLE),
+    .input_data(SIGNAL),
+    .CLK_1023_Phased(CLOCK_1023M),
+    .CLK_10k(CLOCK_SAMPLE),
+    //.D_in(DATA_IN),
+    //.PRN(PRN_SYS),
+    //.doppler_tw(DOPPLER_TW),
+    .phase(PHASE_SYS),
+    .CA_out(CA_OUTPUT),
+    .max_ID(MAX_ID),
+    .accum_0(ACCUM0),
+    .accum_max(ACCUMAX)
+);
 
+pre pre_wrapper (
+    .CLK_16M(CLOCK_16),
+    .RST(RESET),
+    .D_in(DATA_IN),
+    .PRN(PRN_SYS),
+    .doppler_tw(DOPPLER_TW),
+    .CA_code(CA_TABLE),
+    .data_out(SIGNAL),
+    .clk_1023M(CLOCK_1023M),
+    .clk_out(CLOCK_SAMPLE)
+);
+
+
+/*stimulus_main signal_generator (
+    .rst(RESET),
+    .CLK_16M(CLOCK_16),
+    .clk_50(),
+    .clk_1023M(),
+    .CA_code(DATA_IN),
+    .phase(phase),
+    .tap(tap_connect)
+);*/
 
 endmodule
