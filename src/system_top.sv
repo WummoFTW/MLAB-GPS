@@ -4,7 +4,9 @@ module system_top(
     output reg        CA_OUTPUT,
     output reg [7:0]  MAX_ID,
     output reg [31:0] ACCUM0,
-    output reg [31:0] ACCUMAX
+    output reg [31:0] ACCUMAX,
+    output            D_OUT,
+    output            LOCK_LOST
 );
 
 wire RESET, CLOCK_16, CLOCK_SAMPLE, SIGNAL;
@@ -57,6 +59,18 @@ pre pre_wrapper (
     .clk_out(CLOCK_SAMPLE)
 );
 
+EPL_block top_tracker (
+    .rst(RESET),
+    .clk_16M(CLOCK_16),
+    .clk_1_023M(CLOCK_1023M[0]),
+    .clk_1_023M_hc(CLOCK_1023M[2]),
+    .clk_sample(CLOCK_SAMPLE),
+    .sig_in(SIGNAL),
+    .phase(PHASE_SYS),
+    .CA_table(CA_TABLE),
+    .message(D_OUT),
+    .lock_lost(LOCK_LOST)
+);
 
 /*stimulus_main signal_generator (
     .rst(RESET),
