@@ -2,19 +2,20 @@ module EPL_block(
     input           rst,              // Reset
     input           clk_16M,          // 16 MHz clock for accumulator
     input           clk_1_023M,       // 1.023 MHz clock
-    input           clk_1_023M_hc,
-    input           clk_sample,
+    input           clk_1_023M_hc,    // 1.023 MHz clock with 180 deg phase
+    input           clk_sample,       // Sample clock 16 kHz (1000 16 MHz clock cycles)
     input           sig_in,           // Signal in
-    input [9:0]     phase,
-    input [1022:0]  CA_table,
+    input [9:0]     phase,            // Initial phase found by search module
+    input [1022:0]  CA_table,         // C/A code table required for C/A code generators
 
-    output          message,
-    output          lock_lost
+    output          message,          // Output data 50 bps
+    output          lock_lost         // Signal that shows that module is not tracking signal anymore (Requires reset)
 );
     wire earlyCA, lateCA, promptCA, earlyCA_hc, lateCA_hc, clk_whole, clk_halfchip, switch_clk_flag;
     wire [31:0] earlyCoeff, lateCoeff, promptCoeff, earlyCoeff_hc, lateCoeff_hc;
     wire [9:0]controlled_phase;
 
+    // Correlators (accumulators)
     accum earlyCorrelator(
         .rst(rst),
         .clk(clk_16M),
@@ -55,6 +56,8 @@ module EPL_block(
         .clk_10(clk_sample),
         .sum(promptCoeff)
     );
+
+    // Accumulator that averages prompt correlator output to get GPS data
     data_accum #(
         .samplesize(9'd160)
     ) data_accumulator (
@@ -64,6 +67,7 @@ module EPL_block(
         .out_data(message)
     );
 
+    // Module that controls phase to track the signal
     CA_phase_controller phase_control(
         .rst(rst),
         .clk(clk_sample),
@@ -78,6 +82,7 @@ module EPL_block(
         .lock_lost(lock_lost)
     );
 
+    // Module that helps perform half chip phase changes
     clk_switch Clock_switcher(
         .rst(rst),
         .switch_sig(switch_clk_flag),
@@ -87,6 +92,7 @@ module EPL_block(
         .clk_2(clk_halfchip)
     );
 
+    // C/A code generators
     CA_ref_generator #(
         .offset(1022)
     ) EarlyCA (
