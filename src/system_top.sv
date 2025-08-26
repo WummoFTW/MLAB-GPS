@@ -1,5 +1,10 @@
 module system_top(
     input             DATA_IN,
+    input             CLOCK_16,
+    input      [4:0]  PRN_SYS,
+    input      [31:0] DOPPLER_TW,
+    input             RESET,
+    input      [9:0]  PHASE_SYS,
     
     output reg        CA_OUTPUT,
     output reg [7:0]  MAX_ID,
@@ -9,15 +14,12 @@ module system_top(
     output            LOCK_LOST
 );
 
-wire RESET, CLOCK_16, CLOCK_SAMPLE, SIGNAL;
-wire [4:0] PRN_SYS;
-wire [31:0] DOPPLER_TW;
-wire [9:0] PHASE_SYS;
+wire CLOCK_16, CLOCK_SAMPLE, SIGNAL;
 wire RST_st, PRN_st, phase_st, doppler_tw_st, tap_connect;
 wire CLOCK_1023M [3:0];
 wire [1022:0] CA_TABLE;
 
-design_1 vio_0 (
+/*design_1 vio_0 (
     .clk(CLOCK_16),
     .probe_in0(CA_OUTPUT),
     .probe_in1(MAX_ID),
@@ -28,7 +30,7 @@ design_1 vio_0 (
     .probe_out2(PRN_SYS),
     .probe_out3(PHASE_SYS),
     .probe_out4(DOPPLER_TW)
-    );
+    );*/
 
 top top_search (
     .RST(RESET),

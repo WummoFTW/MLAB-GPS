@@ -15,7 +15,7 @@ module top (
     output reg [7:0]  max_ID,
     output reg [31:0] accum_0,
     output reg [31:0] accum_max
-    );
+);
 
 //wire            CLK_10k;
 //wire [3:0]      CLK_1023_Phased;
