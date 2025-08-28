@@ -20,7 +20,8 @@ CA_ref_generator #(
     .offset(cell_offset)
 ) Shifter (
     .rst(rst),
-    .clk(clk_1_023M),
+    .clk(CLK_16M),
+    .gen_en(clk_1_023M),
     .phase(Phase),
     .CA_code(CACODE),
     .tap(CA_tap)

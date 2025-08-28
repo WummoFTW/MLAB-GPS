@@ -18,7 +18,6 @@ module tb_top;
     reg               CLK_waterfall;
     wire              ADC_data;
     reg               data_dummy;
-    wire              debug_clk;
 
     // Instantiate the top module
 
@@ -28,17 +27,17 @@ module tb_top;
     .D_out(ADC_data)
     );
 
-    top uut (
-        .RST(RST),
-        .CLK_16M(CLK),
-        .D_in(ADC_data),
-        .PRN(5'd1),
-        .doppler_tw(32'd4294967),
-        .phase(10'd4),
-        .CA_out(data_out),
-        .max_ID(),
-        .accum_0(),
-        .accum_max()
+    compat_top uut (
+        .RESET(RST),
+        .CLOCK_16(CLK),
+        .DATA_IN(ADC_data),
+        .PRN_SYS(5'd1),
+        .DOPPLER_TW(32'd4294967),
+        .PHASE_SYS(10'd4),
+        .CA_OUTPUT(data_out),
+        .MAX_ID(),
+        .ACCUM0(),
+        .ACCUMAX()
     );
 
     Tester Data_input (
@@ -46,7 +45,7 @@ module tb_top;
         .CLK_16M(CLK),
         .clk_1023M(CLK_1023),       //uut.ref_1_023M.clk_0
         .clk_50(CLK_50),
-        .CA_code(uut.CA_table),
+        .CA_code(uut.top_search.CA_table),
         .phase(10'd8),
         .tap(data_in)
     );
@@ -69,7 +68,11 @@ module tb_top;
     // Clock generation for 1.023 MHz (period ≈ 977.5 ns)
     initial begin
         CLK_1023 = 0;
-        forever #488.75 CLK_1023 = ~CLK_1023; // Half-period ≈ 488.75 ns
+        #500;
+        forever begin
+            #915 CLK_1023 = ~CLK_1023;
+            #62.5 CLK_1023 = ~CLK_1023;
+        end // Half-period ≈ 488.75 ns
     end
 
     // Clock generation (50 Hz for example)
@@ -87,7 +90,7 @@ module tb_top;
         integer i;
         
         for (i = 0; i < 128; i = i + 1) begin
-            $write("%0d ", $signed(uut.coefficient[i]));
+            $write("%0d ", $signed(uut.top_search.coefficient[i]));
         end
         $write("\n");
     end

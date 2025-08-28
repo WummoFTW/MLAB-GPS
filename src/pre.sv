@@ -15,7 +15,6 @@ module pre(//Module I work on before the gym
 );
 
 wire            D_in_doppler, doppler_decode;
-wire            input_data,input_data_decode;
 
 
 cycle_delay delay_2 (
@@ -23,7 +22,7 @@ cycle_delay delay_2 (
     .rst(RST),
     .data_in(D_in_doppler),
     .data_out(data_out),
-    .data_out_code(input_data_decode)
+    .data_out_code()
 );
 
 

@@ -5,7 +5,7 @@ import data_archive
 # Step 1: Your full data as one string
 
 # Step 2: Parse data
-data_values = np.fromstring(data_archive.Arnas, sep=' ')
+data_values = np.fromstring(data_archive.Jokubas, sep=' ')
 if data_values.size % 128 != 0:
     raise ValueError("Data length must be a multiple of 128.")
 

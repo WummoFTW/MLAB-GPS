@@ -20,8 +20,8 @@ module Tester (
     doppler_gen Doppler (
         .clk(CLK_16M),
         .rst(rst),
-        .doppler(12'd4000),   // Hz
-        .sin(doppler_shift)        // 1-bit output
+        .doppler(12'd4000),         // Hz
+        .sin(doppler_shift)         // 1-bit output
     );
 
     CA_ref_generator #(
@@ -35,6 +35,6 @@ module Tester (
         .tap(ca_code)
     );
 
-    assign tap = data[addr] ^ ca_code;// ^ doppler_shift;
+    assign tap = data[addr] ^ ca_code ^ doppler_shift;
 
 endmodule

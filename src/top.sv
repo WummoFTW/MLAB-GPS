@@ -22,7 +22,7 @@ module top (
 //wire [1022:0]   CA_table;
 wire [127:0]    CA_output;
 //wire            input_data,input_data_decode;
-wire            D_in_doppler, doppler_decode;
+//wire            D_in_doppler, doppler_decode;
 
 wire signed [31:0] coefficient [0:127];
 
