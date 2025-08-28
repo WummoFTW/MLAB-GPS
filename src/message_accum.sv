@@ -5,7 +5,8 @@ module data_accum #(
     parameter int samplesize = 160
 )(
     input   rst,                    // Reset
-    input   clk,                    // Clock 16 kHz (sample clock so the correlator output is valid)
+    input   clk,                    // Clock 16 MHz
+    input   sample_en,              // Signal that enables sampling of data
     input signed [31:0]  in_data,   // Prompt correlator output
     output logic out_data           // Data 50 bps
 );
@@ -23,16 +24,18 @@ module data_accum #(
             out_data <= 1'b0;
         end
         else begin
-            // If data is above noise floor, add 1 or 0 depending on the correlator output sign
-            if(in_data > NOISE_FLOOR || in_data < -NOISE_FLOOR) begin 
-                accum <= accum + data;
-            end
-            counter++;
-            // When samplesize is reached output bit and reset module
-            if(counter == samplesize) begin
-                out_data <= accum > (samplesize >> 1) ? 1 : 0;
-                accum <= 0;
-                counter <= 0;
+            if(sample_en) begin
+                // If data is above noise floor, add 1 or 0 depending on the correlator output sign
+                if(in_data > NOISE_FLOOR || in_data < -NOISE_FLOOR) begin 
+                    accum <= accum + data;
+                end
+                counter++;
+                // When samplesize is reached output bit and reset module
+                if(counter == samplesize) begin
+                    out_data <= accum > (samplesize >> 1) ? 1 : 0;
+                    accum <= 0;
+                    counter <= 0;
+                end
             end
         end
     end 

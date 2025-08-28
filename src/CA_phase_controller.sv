@@ -1,7 +1,8 @@
 
 module CA_phase_controller(
     input               rst,                // Reset
-    input               clk,                // Clock
+    input               clk,                // 16 MHz Clock
+    input               sample_en,          // Enables data sampling
     input [9:0]         initial_phase,      // Phase found by search module
     input signed [31:0] earlyC,             // 1 chip early correlator output
     input signed [31:0] earlyC_hc,          // 0.5 chip early correlator output (hc == half chip)
@@ -20,6 +21,7 @@ localparam NOISE_FLOOR = 32'd100; // Any value lower than this is considered noi
 wire [31:0] abs_early, abs_late, abs_prompt, abs_early_hc, abs_late_hc;
 logic [9:0] phase_change;
 wire el_compare;
+logic delay_cycle;
 
 assign abs_early = earlyC[31] == 1'b0 ? earlyC : ~earlyC + 1'b1;                // Absolute 1 chip early value
 assign abs_late = lateC[31] == 1'b0 ? lateC : ~lateC + 1'b1;                    // Absolute 1 chip late value
@@ -34,7 +36,7 @@ assign phase = initial_phase + phase_change;                                    
 // This function avoids 1023 phase
 function [9:0] change_phase (
     input [9:0] phase_change, phase,    
-    input operation                     // Operation decides whether 1 chip should be added (operation == 1) or subtracted (operation == 0) 
+    input operation                     // Operation decides whether 1 chip should be added ( + operation == 1) or subtracted ( - operation == 0) 
 );   
     begin
         case (operation)
@@ -62,38 +64,42 @@ endfunction
             phase_change <= 10'd0;
             lock_lost <= 1'b0;
             switch_clk <= 1'b0;
+            delay_cycle <= 1'b0;
         end
         else begin
-            // If correction is needed
-            if(abs_prompt < CHANGE_THRESHOLD) begin
-                // If half chip early correlator ouput is biggest, correct by half chip
-                if(abs_early_hc > abs_prompt && abs_early_hc > abs_early && el_compare) begin
-                    switch_clk <= ~switch_clk;
-                end
-                // If half chip late correlator ouput is biggest, correct by half chip
-                else if(abs_late_hc > abs_prompt && abs_late_hc > abs_late && !el_compare) begin
-                    switch_clk <= ~switch_clk;
-                    phase_change <= change_phase(phase_change, phase, 1'b1);
-                end
-                else begin
-                    // If early correlator ouput reaches the threshold, correct by 1 chip
-                    if(abs_early > CHIP_CHANGE_THRESHOLD && el_compare) begin
-                        phase_change <= change_phase(phase_change, phase, 1'b0);
+            delay_cycle <= sample_en;
+            if(delay_cycle) begin
+                // If correction is needed
+                if(abs_prompt < CHANGE_THRESHOLD) begin
+                    // If half chip early correlator ouput is biggest, correct by half chip
+                    if(abs_early_hc > abs_prompt && abs_early_hc > abs_early && el_compare) begin
+                        switch_clk <= ~switch_clk;
                     end
-                    // If late correlator ouput reaches the threshold, correct by 1 chip
-                    else if(abs_late > CHIP_CHANGE_THRESHOLD && !el_compare) begin
+                    // If half chip late correlator ouput is biggest, correct by half chip
+                    else if(abs_late_hc > abs_prompt && abs_late_hc > abs_late && !el_compare) begin
+                        switch_clk <= ~switch_clk;
                         phase_change <= change_phase(phase_change, phase, 1'b1);
                     end
+                    else begin
+                        // If early correlator ouput reaches the threshold, correct by 1 chip
+                        if(abs_early > CHIP_CHANGE_THRESHOLD && el_compare) begin
+                            phase_change <= change_phase(phase_change, phase, 1'b0);
+                        end
+                        // If late correlator ouput reaches the threshold, correct by 1 chip
+                        else if(abs_late > CHIP_CHANGE_THRESHOLD && !el_compare) begin
+                            phase_change <= change_phase(phase_change, phase, 1'b1);
+                        end
+                    end
                 end
-            end
-            // If all of the correlators are below noise floor, lock is lost
-            if( abs_early < NOISE_FLOOR &&
-                abs_early_hc < NOISE_FLOOR &&
-                abs_prompt < NOISE_FLOOR &&
-                abs_late_hc < NOISE_FLOOR &&
-                abs_late < NOISE_FLOOR)
-            begin
-                lock_lost <= 1;
+                // If all of the correlators are below noise floor, lock is lost
+                if( abs_early < NOISE_FLOOR &&
+                    abs_early_hc < NOISE_FLOOR &&
+                    abs_prompt < NOISE_FLOOR &&
+                    abs_late_hc < NOISE_FLOOR &&
+                    abs_late < NOISE_FLOOR )
+                begin
+                    lock_lost <= 1;
+                end
             end
         end
     end

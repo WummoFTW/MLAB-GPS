@@ -3,6 +3,7 @@ module CA_ref_generator#( //was CA_shifter
 ) (
     input               rst,
     input               clk,
+    input               gen_en, // Enables generation of C/A code
     input         [9:0] phase,
     input      [1022:0] CA_code,
 
@@ -14,11 +15,13 @@ module CA_ref_generator#( //was CA_shifter
         if (rst) begin
             bit_address <= 10'd0;
         end else begin
-            if(bit_address == 10'd1022) begin
-                bit_address <= 10'd0;
-            end
-            else begin
-                bit_address <= bit_address + 1;
+            if(gen_en) begin
+                if(bit_address == 10'd1022) begin
+                    bit_address <= 10'd0;
+                end
+                else begin
+                    bit_address <= bit_address + 1;
+                end
             end
         end
     end

@@ -62,7 +62,8 @@ module EPL_block(
         .samplesize(9'd160)
     ) data_accumulator (
         .rst(rst),
-        .clk(clk_sample),
+        .clk(clk_16M),
+        .sample_en(clk_sample),
         .in_data(promptCoeff),
         .out_data(message)
     );
@@ -70,7 +71,8 @@ module EPL_block(
     // Module that controls phase to track the signal
     CA_phase_controller phase_control(
         .rst(rst),
-        .clk(clk_sample),
+        .clk(clk_16M),
+        .sample_en(clk_sample),
         .initial_phase(phase),
         .earlyC(earlyCoeff),
         .earlyC_hc(earlyCoeff_hc),
@@ -85,11 +87,12 @@ module EPL_block(
     // Module that helps perform half chip phase changes
     clk_switch Clock_switcher(
         .rst(rst),
+        .clk(clk_16M),
         .switch_sig(switch_clk_flag),
-        .clk_1_023M(clk_1_023M),
-        .clk_1_023M_hc(clk_1_023M_hc),
-        .clk_1(clk_whole),
-        .clk_2(clk_halfchip)
+        .whole_en(clk_1_023M),
+        .halfchip_en(clk_1_023M_hc),
+        .en_1(clk_whole),
+        .en_2(clk_halfchip)
     );
 
     // C/A code generators
@@ -97,17 +100,19 @@ module EPL_block(
         .offset(1022)
     ) EarlyCA (
         .rst(rst),
-        .clk(clk_whole),
+        .clk(clk_16M),
+        .gen_en(clk_whole),
         .phase(controlled_phase),
         .CA_code(CA_table),
         .tap(earlyCA)
     );
 
     CA_ref_generator #(
-        .offset(0)
+        .offset(1022)
     ) EarlyCA_hc (
         .rst(rst),
-        .clk(clk_halfchip),
+        .clk(clk_16M),
+        .gen_en(clk_halfchip),
         .phase(controlled_phase),
         .CA_code(CA_table),
         .tap(earlyCA_hc)
@@ -115,17 +120,19 @@ module EPL_block(
 
     CA_ref_generator PromptCA (
         .rst(rst),
-        .clk(clk_whole),
+        .clk(clk_16M),
+        .gen_en(clk_whole),
         .phase(controlled_phase),
         .CA_code(CA_table),
         .tap(promptCA)
     );
 
     CA_ref_generator #(
-        .offset(1)
+        .offset(0)
     ) LateCA_hc (
         .rst(rst),
-        .clk(clk_halfchip),
+        .clk(clk_16M),
+        .gen_en(clk_halfchip),
         .phase(controlled_phase),
         .CA_code(CA_table),
         .tap(lateCA_hc)
@@ -135,7 +142,8 @@ module EPL_block(
         .offset(1)
     ) LateCA (
         .rst(rst),
-        .clk(clk_whole),
+        .clk(clk_16M),
+        .gen_en(clk_whole),
         .phase(controlled_phase),
         .CA_code(CA_table),
         .tap(lateCA)

@@ -8,6 +8,7 @@ module DLL_control_clock(
     localparam logic [63:0] base_fcw = 64'd1179459451799887360;
     logic [63:0] fcw;
     logic [63:0] phase_accumulator;
+    logic prev_out;
 
     always_ff @(posedge clk_in or posedge rst) begin
         if (rst) begin
@@ -16,9 +17,10 @@ module DLL_control_clock(
         end else begin
             fcw <= base_fcw + (fcw_correction <<< 32);// Nes nesutampa dydziai
             phase_accumulator <= phase_accumulator + fcw;
+            prev_out <= phase_accumulator[63];
         end
     end
 
-    assign clk_out = phase_accumulator[63];
+    assign clk_out = (~prev_out) & phase_accumulator[63];
 
 endmodule

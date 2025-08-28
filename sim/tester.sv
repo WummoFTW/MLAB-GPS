@@ -28,12 +28,13 @@ module Tester (
         .offset(0)
     ) Test_ref (
         .rst(rst),
-        .clk(clk_1023M),
+        .clk(CLK_16M),
+        .gen_en(clk_1023M),
         .phase(phase),
         .CA_code(CA_code),
         .tap(ca_code)
     );
 
-    assign tap = data[addr] ^ ca_code ^ doppler_shift;
+    assign tap = data[addr] ^ ca_code;// ^ doppler_shift;
 
 endmodule
