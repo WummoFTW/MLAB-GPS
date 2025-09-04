@@ -14,9 +14,9 @@ module system_top(
     output            LOCK_LOST
 );
 
-wire CLOCK_16, CLOCK_SAMPLE, SIGNAL;
+wire CLOCK_16, SAMPLE_EN, SIGNAL;
 wire RST_st, PRN_st, phase_st, doppler_tw_st, tap_connect;
-wire CLOCK_1023M [3:0];
+wire EN_1023M [3:0];
 wire [1022:0] CA_TABLE;
 
 /*design_1 vio_0 (
@@ -37,8 +37,8 @@ top top_search (
     .CLK_16M(CLOCK_16),
     .CA_table(CA_TABLE),
     .input_data(SIGNAL),
-    .CLK_1023_Phased(CLOCK_1023M),
-    .CLK_10k(CLOCK_SAMPLE),
+    .EN_1023_Phased(EN_1023M),
+    .sample_en(SAMPLE_EN),
     //.D_in(DATA_IN),
     //.PRN(PRN_SYS),
     //.doppler_tw(DOPPLER_TW),
@@ -57,16 +57,16 @@ pre pre_wrapper (
     .doppler_tw(DOPPLER_TW),
     .CA_code(CA_TABLE),
     .data_out(SIGNAL),
-    .clk_1023M(CLOCK_1023M),
-    .clk_out(CLOCK_SAMPLE)
+    .en_1023M(EN_1023M),
+    .sample_en(SAMPLE_EN)
 );
 
 EPL_block top_tracker (
     .rst(RESET),
     .clk_16M(CLOCK_16),
-    .clk_1_023M(CLOCK_1023M[0]),
-    .clk_1_023M_hc(CLOCK_1023M[2]),
-    .clk_sample(CLOCK_SAMPLE),
+    .en_1_023M(EN_1023M[0]),
+    .en_1_023M_hc(EN_1023M[2]),
+    .en_sample(SAMPLE_EN),
     .sig_in(SIGNAL),
     .phase(PHASE_SYS),
     .CA_table(CA_TABLE),

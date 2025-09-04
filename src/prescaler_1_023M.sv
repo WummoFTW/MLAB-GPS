@@ -1,10 +1,10 @@
 module prescaler_1_023M (
     input  logic clk_in,   // base clock 16 MHz
     input  logic rst,      // reset
-    output logic clk_0,    // 0 pulse
-    output logic clk_1,    // 90 pulse
-    output logic clk_2,    // 180 pulse
-    output logic clk_3     // 270 pulse
+    output logic en_0,    // 0 pulse
+    output logic en_1,    // 90 pulse
+    output logic en_2,    // 180 pulse
+    output logic en_3     // 270 pulse
 );
 
     localparam logic [63:0] DDS_INC = 64'd1179459451799887360;
@@ -38,10 +38,10 @@ module prescaler_1_023M (
         end
     end
 
-    assign clk_0 = phase_pulse[0];
-    assign clk_1 = phase_pulse[3];
-    assign clk_2 = phase_pulse[2];
-    assign clk_3 = phase_pulse[1];
+    assign en_0 = phase_pulse[0];
+    assign en_1 = phase_pulse[3];
+    assign en_2 = phase_pulse[2];
+    assign en_3 = phase_pulse[1];
 
 endmodule
 

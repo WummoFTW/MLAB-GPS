@@ -1,7 +1,7 @@
 module prescaler_accum (
     input  logic   clk_in,
     input  logic   rst,
-    output logic   clk_out
+    output logic   sample_en
 );
     parameter samples = 14'd1000;
     logic [13:0] counter; //10k counter to prescale to
@@ -15,5 +15,5 @@ module prescaler_accum (
             counter <= counter + 14'd1;  // Increment counter
     end
 
-    assign clk_out = (counter == samples - 14'd1);  // Generate output clock pulse every 10,000 input clock cycles
+    assign sample_en = (counter == samples - 14'd1);  // Generate output clock pulse every 10,000 input clock cycles
 endmodule

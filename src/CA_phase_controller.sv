@@ -10,7 +10,7 @@ module CA_phase_controller(
     input signed [31:0] lateC_hc,           // 0.5 chip late correlator output (hc == half chip)
     input [31:0]        promptC,            // Prompt correlator output
     output logic [9:0]  phase,              // Phase given to C/A code generators
-    output logic        switch_clk,         // Signal to switch clock phase by 180 deg
+    output logic        switch_en,         // Signal to switch clock phase by 180 deg
     output logic        lock_lost           // Signal that shows that module is not tracking signal anymore
 );
 
@@ -63,7 +63,7 @@ endfunction
         if(rst) begin
             phase_change <= 10'd0;
             lock_lost <= 1'b0;
-            switch_clk <= 1'b0;
+            switch_en <= 1'b0;
             delay_cycle <= 1'b0;
         end
         else begin
@@ -73,11 +73,11 @@ endfunction
                 if(abs_prompt < CHANGE_THRESHOLD) begin
                     // If half chip early correlator ouput is biggest, correct by half chip
                     if(abs_early_hc > abs_prompt && abs_early_hc > abs_early && el_compare) begin
-                        switch_clk <= ~switch_clk;
+                        switch_en <= ~switch_en;
                     end
                     // If half chip late correlator ouput is biggest, correct by half chip
                     else if(abs_late_hc > abs_prompt && abs_late_hc > abs_late && !el_compare) begin
-                        switch_clk <= ~switch_clk;
+                        switch_en <= ~switch_en;
                         phase_change <= change_phase(phase_change, phase, 1'b1);
                     end
                     else begin

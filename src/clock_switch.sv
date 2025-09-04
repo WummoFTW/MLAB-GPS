@@ -8,7 +8,7 @@ module clk_switch(
     output logic    en_2               // 1.023 MHz clock (phase changed depending on switch_sig)
 );
 
-logic clk, not_skip;
+logic not_skip;
 logic [1:0] count;
 logic prev_switch_sig;
 

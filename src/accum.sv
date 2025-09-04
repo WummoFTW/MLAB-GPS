@@ -2,7 +2,7 @@
     input  logic        clk,        // Main clock signal
     input  logic        rst,        // Synchronous reset
     input  logic        in,         // Input signal to accumulate
-    input  logic        clk_10,     // Flag to output the result
+    input  logic        en_sample,     // Flag to output the result
     input  logic        add_ena,    // C/A Code { do plus or minus 0 = + data | 1 = - data }
     output logic [31:0] sum         // Output sum every 10 inputs
 );
@@ -16,14 +16,14 @@
         end else if(add_ena == 1'b0) begin
             accum <= accum + in;
 
-            if (clk_10 == 1'b1) begin
+            if (en_sample == 1'b1) begin
                 sum   <= accum + in; 
                 accum <= 32'd0;
             end
         end else if(add_ena == 1'b1) begin
             accum <= accum - in;
 
-            if (clk_10 == 1'b1) begin
+            if (en_sample == 1'b1) begin
                 sum   <= accum - in; 
                 accum <= 32'd0;
             end

@@ -7,11 +7,11 @@ module pre(//Module I work on before the gym
 
     output [1022:0] CA_code,
     output          data_out,
-    output          clk_1023M[3:0],
+    output          en_1023M[3:0],
     //output          clk_1,
     //output          clk_2,
     //output          clk_3,
-    output          clk_out
+    output          sample_en
 );
 
 wire            D_in_doppler, doppler_decode;
@@ -35,16 +35,16 @@ CA_master CA_data (
 prescaler_accum calculate_flag (
     .clk_in(CLK_16M),
     .rst(RST),
-    .clk_out(clk_out)
+    .sample_en(sample_en)
 );
 
 prescaler_1_023M ref_1_023M (
     .clk_in(CLK_16M),           // 10 MHz input clock
     .rst(RST),                  // synchronous reset
-    .clk_0(clk_1023M[0]), // 0 Phase clock
-    .clk_1(clk_1023M[1]), // 0.25 Phase clock
-    .clk_2(clk_1023M[2]), // 0.5 Phase clock
-    .clk_3(clk_1023M[3])  // 0.75 Phase clock
+    .en_0(en_1023M[0]), // 0 Phase clock
+    .en_1(en_1023M[1]), // 0.25 Phase clock
+    .en_2(en_1023M[2]), // 0.5 Phase clock
+    .en_3(en_1023M[3])  // 0.75 Phase clock
 );
 
 doppler_compensation doppler_comp (

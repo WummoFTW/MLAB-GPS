@@ -8,8 +8,8 @@ module top (
     // Added inputs:
     input [1022:0] CA_table,
     input          input_data,
-    input          CLK_1023_Phased[3:0],
-    input          CLK_10k,
+    input          EN_1023_Phased[3:0],
+    input          sample_en,
 
     output reg        CA_out,
     output reg [7:0]  max_ID,
@@ -94,8 +94,8 @@ generate
         .Phase(phase),
         .CACODE(CA_table),
         .CLK_16M(CLK_16M),
-        .clk_1_023M(CLK_1023_Phased[i%4]),
-        .clk_10k(CLK_10k),
+        .en_gen(EN_1023_Phased[i%4]),
+        .en_sample(CLK_10k),
         .koef(coefficient[i]),
         .CA_tap(CA_output[i])
         );

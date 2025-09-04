@@ -1,9 +1,9 @@
 module EPL_block(
     input           rst,              // Reset
     input           clk_16M,          // 16 MHz clock for accumulator
-    input           clk_1_023M,       // 1.023 MHz clock
-    input           clk_1_023M_hc,    // 1.023 MHz clock with 180 deg phase
-    input           clk_sample,       // Sample clock 16 kHz (1000 16 MHz clock cycles)
+    input           en_1_023M,       // 1.023 MHz clock
+    input           en_1_023M_hc,    // 1.023 MHz clock with 180 deg phase
+    input           en_sample,       // Sample clock 16 kHz (1000 16 MHz clock cycles)
     input           sig_in,           // Signal in
     input [9:0]     phase,            // Initial phase found by search module
     input [1022:0]  CA_table,         // C/A code table required for C/A code generators
@@ -21,7 +21,7 @@ module EPL_block(
         .clk(clk_16M),
         .add_ena(earlyCA),
         .in(sig_in),
-        .clk_10(clk_sample),
+        .en_sample(clk_sample),
         .sum(earlyCoeff)
     );
     accum earlyCorrelator_hc(
@@ -29,7 +29,7 @@ module EPL_block(
         .clk(clk_16M),
         .add_ena(earlyCA_hc),
         .in(sig_in),
-        .clk_10(clk_sample),
+        .en_sample(clk_sample),
         .sum(earlyCoeff_hc)
     );
     accum lateCorrelator(
@@ -37,7 +37,7 @@ module EPL_block(
         .clk(clk_16M),
         .add_ena(lateCA),
         .in(sig_in),
-        .clk_10(clk_sample),
+        .en_sample(clk_sample),
         .sum(lateCoeff)
     );
     accum lateCorrelator_hc(
@@ -45,7 +45,7 @@ module EPL_block(
         .clk(clk_16M),
         .add_ena(lateCA_hc),
         .in(sig_in),
-        .clk_10(clk_sample),
+        .en_sample(clk_sample),
         .sum(lateCoeff_hc)
     );
     accum promptCorrelator(
@@ -53,7 +53,7 @@ module EPL_block(
         .clk(clk_16M),
         .add_ena(promptCA),
         .in(sig_in),
-        .clk_10(clk_sample),
+        .en_sample(clk_sample),
         .sum(promptCoeff)
     );
 
@@ -80,7 +80,7 @@ module EPL_block(
         .lateC_hc(lateCoeff_hc),
         .promptC(promptCoeff),
         .phase(controlled_phase),
-        .switch_clk(switch_clk_flag),
+        .switch_en(switch_clk_flag),
         .lock_lost(lock_lost)
     );
 

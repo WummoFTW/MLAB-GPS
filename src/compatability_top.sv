@@ -12,8 +12,8 @@ module compat_top(
     output reg [31:0] ACCUMAX
 );
 
-wire CLOCK_SAMPLE, SIGNAL;
-wire CLOCK_1023M [3:0];
+wire EN_SAMPLE, SIGNAL;
+wire EN_1023M [3:0];
 wire [1022:0] CA_TABLE;
 
 top top_search (
@@ -21,8 +21,8 @@ top top_search (
     .CLK_16M(CLOCK_16),
     .CA_table(CA_TABLE),
     .input_data(SIGNAL),
-    .CLK_1023_Phased(CLOCK_1023M),
-    .CLK_10k(CLOCK_SAMPLE),
+    .EN_1023_Phased(EN_1023M),
+    .sample_en(EN_SAMPLE),
     .phase(PHASE_SYS),
     .CA_out(CA_OUTPUT),
     .max_ID(MAX_ID),
@@ -38,8 +38,8 @@ pre pre_wrapper (
     .doppler_tw(DOPPLER_TW),
     .CA_code(CA_TABLE),
     .data_out(SIGNAL),
-    .clk_1023M(CLOCK_1023M),
-    .clk_out(CLOCK_SAMPLE)
+    .en_1023M(EN_1023M),
+    .sample_en(EN_SAMPLE)
 );
 
 endmodule

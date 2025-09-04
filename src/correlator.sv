@@ -6,8 +6,8 @@ module correlator#(
     input  [9:0]    Phase,
     input  [1022:0] CACODE,
     input           CLK_16M,
-    input           clk_1_023M,
-    input           clk_10k,
+    input           en_gen,
+    input           en_sample,
 
     output [31:0]   koef,
     output          CA_tap
@@ -21,7 +21,7 @@ CA_ref_generator #(
 ) Shifter (
     .rst(rst),
     .clk(CLK_16M),
-    .gen_en(clk_1_023M),
+    .gen_en(en_gen),
     .phase(Phase),
     .CA_code(CACODE),
     .tap(CA_tap)
@@ -31,7 +31,7 @@ accum Accumulator (
     .clk(CLK_16M),      // Main clock signal
     .rst(rst),          // Synchronous reset
     .in(sig_in),        // Input signal to accumulate
-    .clk_10(clk_10k),   // Flag to output the result
+    .en_sample(en_sample),   // Flag to output the result
     .add_ena(CA_tap),   // Do plus or minus | 0 = + data | 1 = - data | 
     .sum(koef) 
 );
